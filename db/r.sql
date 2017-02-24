@@ -1,6 +1,6 @@
 /*
 SQLyog Professional v12.09 (64 bit)
-MySQL - 5.6.17 : Database - richkem
+MySQL - 5.7.14 : Database - richkem
 *********************************************************************
 */
 
@@ -583,7 +583,227 @@ CREATE TABLE `r_users` (
 
 /*Data for the table `r_users` */
 
-insert  into `r_users`(`id`,`user_login`,`user_pass`,`user_nicename`,`user_email`,`user_url`,`avatar`,`sex`,`birthday`,`signature`,`last_login_ip`,`last_login_time`,`create_time`,`user_activation_key`,`user_status`,`score`,`user_type`,`coin`,`mobile`) values (1,'admin','###9237d65a1a25e8d4438ec4cee56107d6','admin','iandwho@163.com','',NULL,0,'2000-01-01',NULL,'127.0.0.1','2017-02-23 21:40:54','2017-02-23 09:40:45','',1,0,1,0,'');
+insert  into `r_users`(`id`,`user_login`,`user_pass`,`user_nicename`,`user_email`,`user_url`,`avatar`,`sex`,`birthday`,`signature`,`last_login_ip`,`last_login_time`,`create_time`,`user_activation_key`,`user_status`,`score`,`user_type`,`coin`,`mobile`) values (1,'admin','###9237d65a1a25e8d4438ec4cee56107d6','admin','iandwho@163.com','',NULL,0,'2000-01-01',NULL,'0.0.0.0','2017-02-24 11:49:24','2017-02-23 09:40:45','',1,0,1,0,'');
+
+/*Table structure for table `richkem_posts` */
+
+DROP TABLE IF EXISTS `richkem_posts`;
+
+CREATE TABLE `richkem_posts` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `post_author` bigint(20) unsigned DEFAULT '0' COMMENT '发表者id',
+  `post_keywords` varchar(150) NOT NULL COMMENT 'seo keywords',
+  `post_source` varchar(150) DEFAULT NULL COMMENT '转载文章的来源',
+  `post_date` datetime DEFAULT '2000-01-01 00:00:00' COMMENT 'post发布日期',
+  `post_content` longtext COMMENT 'post内容',
+  `post_title` text COMMENT 'post标题',
+  `post_excerpt` text COMMENT 'post摘要',
+  `post_status` int(2) DEFAULT '1' COMMENT 'post状态，1已审核，0未审核,3删除',
+  `comment_status` int(2) DEFAULT '1' COMMENT '评论状态，1允许，0不允许',
+  `post_modified` datetime DEFAULT '2000-01-01 00:00:00' COMMENT 'post更新时间，可在前台修改，显示给用户',
+  `post_content_filtered` longtext,
+  `post_parent` bigint(20) unsigned DEFAULT '0' COMMENT 'post的父级post id,表示post层级关系',
+  `post_type` int(2) DEFAULT '1' COMMENT 'post类型，1文章,2页面',
+  `post_mime_type` varchar(100) DEFAULT '',
+  `comment_count` bigint(20) DEFAULT '0',
+  `smeta` text COMMENT 'post的扩展字段，保存相关扩展属性，如缩略图；格式为json',
+  `post_hits` int(11) DEFAULT '0' COMMENT 'post点击数，查看数',
+  `post_like` int(11) DEFAULT '0' COMMENT 'post赞数',
+  `istop` tinyint(1) NOT NULL DEFAULT '0' COMMENT '置顶 1置顶； 0不置顶',
+  `recommended` tinyint(1) NOT NULL DEFAULT '0' COMMENT '推荐 1推荐 0不推荐',
+  PRIMARY KEY (`id`),
+  KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`id`),
+  KEY `post_parent` (`post_parent`),
+  KEY `post_author` (`post_author`),
+  KEY `post_date` (`post_date`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Portal文章表';
+
+/*Data for the table `richkem_posts` */
+
+insert  into `richkem_posts`(`id`,`post_author`,`post_keywords`,`post_source`,`post_date`,`post_content`,`post_title`,`post_excerpt`,`post_status`,`comment_status`,`post_modified`,`post_content_filtered`,`post_parent`,`post_type`,`post_mime_type`,`comment_count`,`smeta`,`post_hits`,`post_like`,`istop`,`recommended`) values (1,1,'test','test','2017-02-23 14:21:43','<p>test</p>','test','test',1,1,'2017-02-23 14:21:52',NULL,0,1,'',0,'{\"thumb\":\"\",\"template\":\"\"}',1,0,0,0);
+
+/*Table structure for table `richkem_role` */
+
+DROP TABLE IF EXISTS `richkem_role`;
+
+CREATE TABLE `richkem_role` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL COMMENT '角色名称',
+  `pid` smallint(6) DEFAULT NULL COMMENT '父角色ID',
+  `status` tinyint(1) unsigned DEFAULT NULL COMMENT '状态',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `listorder` int(3) NOT NULL DEFAULT '0' COMMENT '排序字段',
+  PRIMARY KEY (`id`),
+  KEY `parentId` (`pid`),
+  KEY `status` (`status`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='角色表';
+
+/*Data for the table `richkem_role` */
+
+insert  into `richkem_role`(`id`,`name`,`pid`,`status`,`remark`,`create_time`,`update_time`,`listorder`) values (1,'超级管理员',0,1,'拥有网站最高管理员权限！',1329633709,1329633709,0);
+
+/*Table structure for table `richkem_role_user` */
+
+DROP TABLE IF EXISTS `richkem_role_user`;
+
+CREATE TABLE `richkem_role_user` (
+  `role_id` int(11) unsigned DEFAULT '0' COMMENT '角色 id',
+  `user_id` int(11) DEFAULT '0' COMMENT '用户id',
+  KEY `group_id` (`role_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户角色对应表';
+
+/*Data for the table `richkem_role_user` */
+
+/*Table structure for table `richkem_route` */
+
+DROP TABLE IF EXISTS `richkem_route`;
+
+CREATE TABLE `richkem_route` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '路由id',
+  `full_url` varchar(255) DEFAULT NULL COMMENT '完整url， 如：portal/list/index?id=1',
+  `url` varchar(255) DEFAULT NULL COMMENT '实际显示的url',
+  `listorder` int(5) DEFAULT '0' COMMENT '排序，优先级，越小优先级越高',
+  `status` tinyint(1) DEFAULT '1' COMMENT '状态，1：启用 ;0：不启用',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='url路由表';
+
+/*Data for the table `richkem_route` */
+
+/*Table structure for table `richkem_slide` */
+
+DROP TABLE IF EXISTS `richkem_slide`;
+
+CREATE TABLE `richkem_slide` (
+  `slide_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `slide_cid` int(11) NOT NULL COMMENT '幻灯片分类 id',
+  `slide_name` varchar(255) NOT NULL COMMENT '幻灯片名称',
+  `slide_pic` varchar(255) DEFAULT NULL COMMENT '幻灯片图片',
+  `slide_url` varchar(255) DEFAULT NULL COMMENT '幻灯片链接',
+  `slide_des` varchar(255) DEFAULT NULL COMMENT '幻灯片描述',
+  `slide_content` text COMMENT '幻灯片内容',
+  `slide_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1显示，0不显示',
+  `listorder` int(10) DEFAULT '0' COMMENT '排序',
+  PRIMARY KEY (`slide_id`),
+  KEY `slide_cid` (`slide_cid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='幻灯片表';
+
+/*Data for the table `richkem_slide` */
+
+/*Table structure for table `richkem_slide_cat` */
+
+DROP TABLE IF EXISTS `richkem_slide_cat`;
+
+CREATE TABLE `richkem_slide_cat` (
+  `cid` int(11) NOT NULL AUTO_INCREMENT,
+  `cat_name` varchar(255) NOT NULL COMMENT '幻灯片分类',
+  `cat_idname` varchar(255) NOT NULL COMMENT '幻灯片分类标识',
+  `cat_remark` text COMMENT '分类备注',
+  `cat_status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1显示，0不显示',
+  PRIMARY KEY (`cid`),
+  KEY `cat_idname` (`cat_idname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='幻灯片分类表';
+
+/*Data for the table `richkem_slide_cat` */
+
+/*Table structure for table `richkem_term_relationships` */
+
+DROP TABLE IF EXISTS `richkem_term_relationships`;
+
+CREATE TABLE `richkem_term_relationships` (
+  `tid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `object_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'posts表里文章id',
+  `term_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '分类id',
+  `listorder` int(10) NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1发布，0不发布',
+  PRIMARY KEY (`tid`),
+  KEY `term_taxonomy_id` (`term_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Portal 文章分类对应表';
+
+/*Data for the table `richkem_term_relationships` */
+
+insert  into `richkem_term_relationships`(`tid`,`object_id`,`term_id`,`listorder`,`status`) values (1,1,3,0,1);
+
+/*Table structure for table `richkem_terms` */
+
+DROP TABLE IF EXISTS `richkem_terms`;
+
+CREATE TABLE `richkem_terms` (
+  `term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '分类id',
+  `name` varchar(200) DEFAULT NULL COMMENT '分类名称',
+  `slug` varchar(200) DEFAULT '',
+  `taxonomy` varchar(32) DEFAULT NULL COMMENT '分类类型',
+  `description` longtext COMMENT '分类描述',
+  `parent` bigint(20) unsigned DEFAULT '0' COMMENT '分类父id',
+  `count` bigint(20) DEFAULT '0' COMMENT '分类文章数',
+  `path` varchar(500) DEFAULT NULL COMMENT '分类层级关系路径',
+  `seo_title` varchar(500) DEFAULT NULL,
+  `seo_keywords` varchar(500) DEFAULT NULL,
+  `seo_description` varchar(500) DEFAULT NULL,
+  `list_tpl` varchar(50) DEFAULT NULL COMMENT '分类列表模板',
+  `one_tpl` varchar(50) DEFAULT NULL COMMENT '分类文章页模板',
+  `listorder` int(5) NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` int(2) NOT NULL DEFAULT '1' COMMENT '状态，1发布，0不发布',
+  PRIMARY KEY (`term_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Portal 文章分类表';
+
+/*Data for the table `richkem_terms` */
+
+insert  into `richkem_terms`(`term_id`,`name`,`slug`,`taxonomy`,`description`,`parent`,`count`,`path`,`seo_title`,`seo_keywords`,`seo_description`,`list_tpl`,`one_tpl`,`listorder`,`status`) values (3,'资讯','','article','新闻资讯',0,0,'0-3','','','','list','article',0,1);
+
+/*Table structure for table `richkem_user_favorites` */
+
+DROP TABLE IF EXISTS `richkem_user_favorites`;
+
+CREATE TABLE `richkem_user_favorites` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` bigint(20) DEFAULT NULL COMMENT '用户 id',
+  `title` varchar(255) DEFAULT NULL COMMENT '收藏内容的标题',
+  `url` varchar(255) DEFAULT NULL COMMENT '收藏内容的原文地址，不带域名',
+  `description` varchar(500) DEFAULT NULL COMMENT '收藏内容的描述',
+  `table` varchar(50) DEFAULT NULL COMMENT '收藏实体以前所在表，不带前缀',
+  `object_id` int(11) DEFAULT NULL COMMENT '收藏内容原来的主键id',
+  `createtime` int(11) DEFAULT NULL COMMENT '收藏时间',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户收藏表';
+
+/*Data for the table `richkem_user_favorites` */
+
+/*Table structure for table `richkem_users` */
+
+DROP TABLE IF EXISTS `richkem_users`;
+
+CREATE TABLE `richkem_users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_login` varchar(60) NOT NULL DEFAULT '' COMMENT '用户名',
+  `user_pass` varchar(64) NOT NULL DEFAULT '' COMMENT '登录密码；sp_password加密',
+  `user_nicename` varchar(50) NOT NULL DEFAULT '' COMMENT '用户美名',
+  `user_email` varchar(100) NOT NULL DEFAULT '' COMMENT '登录邮箱',
+  `user_url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人网站',
+  `avatar` varchar(255) DEFAULT NULL COMMENT '用户头像，相对于upload/avatar目录',
+  `sex` smallint(1) DEFAULT '0' COMMENT '性别；0：保密，1：男；2：女',
+  `birthday` date DEFAULT '2000-01-01' COMMENT '生日',
+  `signature` varchar(255) DEFAULT NULL COMMENT '个性签名',
+  `last_login_ip` varchar(16) DEFAULT NULL COMMENT '最后登录ip',
+  `last_login_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '最后登录时间',
+  `create_time` datetime NOT NULL DEFAULT '2000-01-01 00:00:00' COMMENT '注册时间',
+  `user_activation_key` varchar(60) NOT NULL DEFAULT '' COMMENT '激活码',
+  `user_status` int(11) NOT NULL DEFAULT '1' COMMENT '用户状态 0：禁用； 1：正常 ；2：未验证',
+  `score` int(11) NOT NULL DEFAULT '0' COMMENT '用户积分',
+  `user_type` smallint(1) DEFAULT '1' COMMENT '用户类型，1:admin ;2:会员',
+  `coin` int(11) NOT NULL DEFAULT '0' COMMENT '金币',
+  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号',
+  PRIMARY KEY (`id`),
+  KEY `user_login_key` (`user_login`),
+  KEY `user_nicename` (`user_nicename`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+/*Data for the table `richkem_users` */
+
+insert  into `richkem_users`(`id`,`user_login`,`user_pass`,`user_nicename`,`user_email`,`user_url`,`avatar`,`sex`,`birthday`,`signature`,`last_login_ip`,`last_login_time`,`create_time`,`user_activation_key`,`user_status`,`score`,`user_type`,`coin`,`mobile`) values (1,'admin','###3e958b3a3d51a8de1a8d862025fc39d7','admin','iandwho@163.com','',NULL,0,'2000-01-01',NULL,'0.0.0.0','2017-02-23 17:43:20','2017-02-23 11:49:52','',1,0,1,0,'');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
