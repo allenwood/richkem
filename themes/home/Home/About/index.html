@@ -126,10 +126,10 @@
                     </div>
                     <div class="portfolio-info-fade">
                         <ul>
-                            <li class="portfolio-project-name">Project Name</li>
+                            <!--<li class="portfolio-project-name">Project Name</li>
                             <li>Website design & Development</li>
-                            <li>Client: Some Client LTD</li>
-                            <li class="read-more"><a href="page-portfolio-item.html" class="btn">Read more</a></li>
+                            <li>Client: Some Client LTD</li>-->
+							<li class="read-more"><a href="javascript:void(0);" onclick="show_pic('__TMPL__Public/assets/img/portfolio1.jpg')" class="btn">Read more</a></li>
                         </ul>
                     </div>
                 </div>
@@ -141,10 +141,10 @@
                     </div>
                     <div class="portfolio-info-fade">
                         <ul>
-                            <li class="portfolio-project-name">Project Name</li>
+                            <!--<li class="portfolio-project-name">Project Name</li>
                             <li>Website design & Development</li>
-                            <li>Client: Some Client LTD</li>
-                            <li class="read-more"><a href="page-portfolio-item.html" class="btn">Read more</a></li>
+                            <li>Client: Some Client LTD</li>-->
+                            <li class="read-more"><a href="javascript:void(0);" onclick="show_pic('__TMPL__Public/assets/img/portfolio2.jpg')" class="btn">Read more</a></li>
                         </ul>
                     </div>
                 </div>
@@ -156,8 +156,19 @@
 <tc_include file="Public:foot" />
 <!--Scirpts-->
 <tc_include file="Public:scripts" />
-
-
-
+<script type="text/javascript" src="__TMPL__Public/assets/layer/layer.js"></script>
+<script type="text/javascript">
+	function show_pic(url){
+		layer.open({
+			type: 1,
+			title: false,
+			area: ['1000px', '722px'],
+			closeBtn: 1,
+			shadeClose: true,
+			skin: 'yourclass',
+			content: "<img src='"+url+"' style='max-width:100%';max-height:100%/>"
+		});
+	}
+</script>
 </body>
 </html>

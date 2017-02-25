@@ -7,4 +7,8 @@ class HomepageController extends AdminbaseController{
 	function index(){
 		$this->display();
 	}
+
+	function detail(){
+        $this->display();
+    }
 }

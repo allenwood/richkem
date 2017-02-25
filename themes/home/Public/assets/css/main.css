@@ -906,9 +906,10 @@ span.color-red {
   background-clip: padding-box;
 }
 .product-details .price-was {
-  text-decoration: line-through;
+  /*text-decoration: line-through;*/
   font-size: 0.8em;
   font-weight: normal;
+  color:#e4a22d;
 }
 .product-details .shop-item-selections {
   width: 100%;
@@ -2673,4 +2674,19 @@ span.color-red {
 }
 .dropdown.open a.dropdown-toggle .caret {
   border-top: 4px solid #FFF;
+}
+
+.category-label-box h2{
+padding-top:50px;
+}
+.category-label-box a.label {
+  background: #e2e2e2;
+  color:#00000;
+}
+.category-label-box a.label:hover{
+  background-color: #f0ad4e;
+  color:#ffffff;
+}
+.category-label-box a.active{
+  background-color: #f0ad4e;
 }
