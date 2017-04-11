@@ -26,4 +26,31 @@ class ProductController extends Controller
     public function index(){
         return view('index');
     }
+
+    /**
+     * navbar menu for product category
+     * @return \think\response\View
+     * @author Allen <wudi@wdcloud.cc>
+     */
+    public function nav(){
+        return view('nav');
+    }
+
+    /**
+     * prodcut category process
+     * @return \think\response\View
+     * @author Allen <wudi@wdcloud.cc>
+     */
+    public function category(){
+        return view('category');
+    }
+
+    /**
+     * product detail
+     * @return \think\response\View
+     * @author Allen <wudi@wdcloud.cc>
+     */
+    public function detail(){
+        return view('detail');
+    }
 }

@@ -1,0 +1,54 @@
+<div>
+    <h1>Website Hompage</h1>
+</div>
+<div>
+    <h3>Language Switch Detected</h3>
+    <div>
+        {:lang('samples')}
+    </div>
+    <h3>System Variables</h3>
+    <div>{$Think.get.lang}</div>
+    <div>{$Think.server.HTTP_ACCEPT_LANGUAGE}</div>
+</div>
+
+<div>
+    <h3>Demo Structure of Website</h3>
+    <ul>
+        <li><a href="{:url('index/index/index')}">Homepage</a></li>
+        <li>
+            <a href="{:url('index/about/index')}">About Us</a>
+            <ul>
+                <li><a href="{:url('about/intro')}">Basic Intro</a></li>
+                <li><a href="{:url('about/intro')}">Features</a></li>
+                <li><a href="{:url('about/intro')}">Honours</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{:url('index/product/index')}">Product</a>
+            <ul>
+                <li><a href="{:url('index/product/category')}">Product Category</a></li>
+                <li><a href="{:url('index/product/detail')}">Product Detail</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{:url('index/events/index')}">Events</a>
+            <ul>
+                <li><a href="{:url('index/events/detail')}">Event detail</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{:url('index/contact/index')}">Contact</a>
+            <ul>
+                <li><a href="{:url('index/contact/msg')}">Message process</a></li>
+                <li><a href="{:url('index/contact/arrived')}">Message Arrived</a></li>
+                <li><a href="{:url('index/contact/map')}">Map</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="{:url('index/search/result')}">Search Result</a>
+            <ul>
+                <li><a href="#">TODO::sample_link</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
